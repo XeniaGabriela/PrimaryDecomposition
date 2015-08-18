@@ -1,0 +1,20 @@
+\contentsline {section}{\numberline {1}Einleitung}{1}
+\contentsline {section}{\numberline {2}Theoretische Grundlagen}{2}
+\contentsline {section}{\numberline {3}Algorithmische Umsetzungen}{2}
+\contentsline {subsection}{\numberline {3.1}Prim\"arzerlegung eines Ideals in $k[x_1,\dots ,x_n]$}{2}
+\contentsline {subsubsection}{\numberline {3.1.1}Der nulldimensionale Fall}{2}
+\contentsline {subsubsection}{\numberline {3.1.2}Der mehrdimensionale Fall}{2}
+\contentsline {subsection}{\numberline {3.2}Prim\"arzerlegung eines Ideals in $\mathbb {Z}[x_1,\dots ,x_n]$}{2}
+\contentsline {subsubsection}{\numberline {3.2.1}Vorbereitungen f\"ur die algorithmische Umsetzung}{2}
+\contentsline {subsubsection}{\numberline {3.2.2}Die erste Aufteilung eines Ideals}{2}
+\contentsline {subsubsection}{\numberline {3.2.3}Eliminierung von Variablen}{2}
+\contentsline {subsubsection}{\numberline {3.2.4}Assoziierte Primideale}{2}
+\contentsline {subsubsection}{\numberline {3.2.5}Die Prim\"arzerlegung}{2}
+\contentsline {section}{\numberline {A}Ideale und Moduln}{2}
+\contentsline {subsection}{\numberline {A.1}Quotienten von Idealen und deren Saturierung}{2}
+\contentsline {subsection}{\numberline {A.2}Assoziierte Primideale und Dimensionsbegriffe}{2}
+\contentsline {subsection}{\numberline {A.3}Endlich erzeugte und freie Moduln}{2}
+\contentsline {section}{\numberline {B}Abbildungen als "\"Ubersetzungen"}{2}
+\contentsline {subsection}{\numberline {B.1}Homomorphismen zwischen Polynomringen}{2}
+\contentsline {section}{\numberline {C}Einf\"uhrung}{3}
+\contentsline {section}{\numberline {D}Grundlagen}{6}

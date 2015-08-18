@@ -1,0 +1,477 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[latin1]{inputenc}
+%\usepackage{graphicx}
+%\usepackage{epsfig}
+%\usepackage[all]{xy}
+\newcounter{excnt}
+\newtheorem{thm}{Theorem}
+\newtheorem{df}[thm]{Definition}
+\newtheorem{rem}[thm]{Bemerkung}
+\newtheorem{cor}[thm]{Korollar}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newenvironment{Beweis}%
+     {\noindent {\bf Beweis:}}{\nopagebreak\begin{flushright}{\bf q.e.d.}\end{flushright}}
+\newenvironment{Beispiel}%
+     {\stepcounter{excnt}
+      \noindent {\bf Beispiel \arabic{excnt}} \phantom{i}}{\vspace{0.4cm}}
+\newenvironment{algo}[1]{\begin{quote}{\bf Algorithm #1}}{\end{quote}}
+
+\title{Anhang}
+
+\begin{document}
+
+\maketitle
+
+\appendix
+
+\section{Ideale und Moduln}
+Hier werden weitere Definitionen und Zusamenh\"ange zur Ring- und Mo\-dultheorie
+erw\"ahnt, die zum Verst\"andnis einer Prim\"arzerlegung im arithmetischen Fall 
+ben\"otigt werden. Im ersten Teil gehen wir auf Quotienten von Idealen und deren
+Saturierungen ein, im zweiten Teil erinnern wir an assoziierte Primideale und 
+Dimensionsbegriffe, im dritten Teil geht es um Moduln und im Speziellen 
+Syzygienmoduln. Bei einigen Objekten betrachten wir auch deren 
+geometrische Interpretation.
+Grundlegende Kenntnisse \"uber Ringe und Moduln werden vorausgesetzt.
+Bei den fehlenden Beweisen verweisen wir auf die jeweils erw\"ahnte Literatur.
+
+
+\subsection{Quotienten von Idealen und deren Saturierung} 
+
+Bei der Konstruktion einer Prim\"arzerlegung eines Ideals 
+$I\subset R[x_,\dots,x_n]$ mit einem beliebigen Ring $R$ wird zu einem großen 
+Teil mit Quotienten von Idealen und Moduln und deren Saturierung gearbeitet. 
+Deswegen wenden wir uns erst mal diesen Begriffen zu.\\
+
+
+\begin{df}[GP07, Kap.1.8.8]
+Seien $I,J$ Ideale  eines  noetherschen Rin\-ges $R$ oder Untermoduln eines 
+$R$-Moduls M. Dann ist der Quotient von $I$ nach $J$ definiert als\\
+\[(I:J) := \{r \in R : rJ \subset I\}\]
+\end{df}
+
+\noindent 
+Offensichtlich gilt 
+$$(I:\langle b_1,\cdots,b_s\rangle) = \bigcap_{i=1}^s(I:\langle b_i\rangle)$$
+Betrachten wir den Quotienten von $I$ nach Potenzen von $J$\\
+$$I = (I:J) \subset (I:J^2) \subset \cdots R$$
+Da $R$ noethersch ist, gibt es ein $s\in \mathbb{N}$ mit 
+$(I:J^s) = (I:J^{s+i})\quad\forall i \geq 0$. So ein $s$ gen\"ugt\\
+$$(I:J^\infty) := \bigcup_{i\geq 0}(I:J^i) = (I:J^s)$$
+und $(I:J^s)$ nennt man die $Saturierung$ von $I$ nach $J$. 
+Das minimale der\-artige $s$ heisst $Saturierungsexponent$. Ist $I$ ein 
+Radikalideal, so ist der Saturierungsexponent 1.\\
+
+\noindent
+Der Quotient und die Saturierung des Untermoduls eines Moduls werden analog 
+definiert. Man kann die Erzeugenden eines Untermoduls eines freien $R$-Moduls
+$R^k$ als Vektoren mit $k$ Eintr\"agen betrachten. Darauf werden wir aber nicht 
+weiter eingehen. In [AL], Kapitel $3$ und in [GP07], Kapitel $2$ sind die Theorie
+und algorithmische Umsetzungen zu diesem Thema ausf\"uhrlich beschrieben.\\
+
+
+\begin{Beispiel}
+$R=\mathbb{Z}[x,y]$, $I:=\langle xy^2,y^3\rangle$, $J:=\langle x,y\rangle$\\
+$(I:J)=(I:J^\infty)=(\langle xy^2,y^3\rangle:\langle x,y\rangle)=\langle y^2\rangle$
+\end{Beispiel}
+
+\noindent Trotzdem ist $I$ in diesem Fall kein Radikalideal, denn 
+$\sqrt{I}=\langle xy^2,y\rangle \not= I$. Nun noch einige Eigenschaften von 
+Idealquotienten:\\
+
+\begin{lem} [GP07, Lemma 1.8.14.]
+Sei $R$ ein Ring und $I,J,K$ Ideale in $R$. Dann gilt
+\begin{enumerate}
+\item[(1)] $(I\cap J):K=(I:K)\cap(J:K)$ im Speziellen gilt\\
+$(I:K)=(I\cap J):K$, falls $K\subset J$ ist.
+\item[(2)] $(I:J):K= (I:J\cdot K)$
+\item[(3)] Ist $I$ ein Primideal und $J\not\subset I$, dann ist\\
+$(I:J^j)=I$ f\"ur $j>0$.
+\item[(4)] Ist $I=\bigcap_{i=1}^r P_i$ mit Primidealen $P_i$ , dann ist\\
+$(I:J^\infty)=(I:J)=\bigcap_{J\not\subset P_i}P_i$.
+\end{enumerate}
+\end{lem}
+
+\noindent
+Diese Punkte sind f\"ur die geometrische Betrachtung von Quotienten und 
+Saturierungen interessant. Im Punkt $(4)$ haben wir es mit der Zerlegung 
+eines Radikalideals zu tun. Dann ist 
+$$V(I)=\cup_{i=1}^r V(P_i).$$
+Ausserdem ist genau dann $J\subset P_i$, wenn $V(P_i)$ ein abgeschlossenes
+Unterschema von $V(J)$ ist. Somit ist die Variet\"at $V(I:J)$ definiert durch
+$$V(I:J)=\bigcup_{V(P_i)\not\subset V(J)}V(P_i).$$
+Mit anderen Worten ist dann $V(I:J)$ der Zariski-Abschluss von 
+$V(I)\setminus V(J)$.\\[1cm]
+
+
+\subsection{Assoziierte Primideale und Dimensionsbegriffe}
+
+Bei der algorithmischen Prim\"arzerlegung im arithmetischen Fall werden die 
+assoziierten Primideale des zu zerlegenden Ideals sukzessiv nach der H\"ohe 
+deren Dimension gesucht. Was hier mit der Dimension eines Ringes oder eines 
+Ideals gemeint ist, wird in der folgenden Definition erl\"autert.\\
+
+\begin{df}[GP07, Def. 3.3.1.]
+Sei $A$ ein Ring
+\begin{enumerate}
+\item[(1)] Die Menge aller Ketten von Primidealen in $A$ wird definiert als
+$$C(A):=\{\zeta =(P_0 \subsetneq\cdots\subsetneq P_m \subsetneq A) 
+\mid P_i  \text{Primideal})\}$$
+\item[(2)] Ist $\zeta =(P_0 \subsetneq\cdots\subsetneq P_m \subsetneq A )\in C(A)$,
+so ist $m:=length (\zeta)$ die L\"ange von $\zeta$.
+\item[(3)] Die Dimension von $A$ ist definiert als 
+$$dim(A) := sup\, \{length (\zeta)\}\mid \zeta \in C(A)$$
+\item[(4)] F\"ur ein Primideal $P\subset A$ sei
+$$C(A,P):=\{\zeta =(P_0 \subsetneq\cdots\subsetneq P_m )\in C(A)\mid P_m=P\}$$
+die Menge der Ketten von Primidealen, welche in $P$ enden. Wir definieren die 
+H\"ohe von $P$ als ht$(P)= sup \{length (\zeta)\mid \zeta \in C(A,P)\}$.
+\item[(5)] F\"ur ein allgemeines Ideal $I\subset A$ sei die H\"ohe von $I$ 
+definiert al ht$(I):=inf\,\{ht(P)\mid I\subset P,\, \text{Primideal}\}$ und
+dim $(I):=dim (A/I)$ sei die Dimension von $I$.
+\end{enumerate}
+\end{df}
+
+\noindent
+Die so definierte Dimension von Ringen heisst auch \textit{Krull-Dimension}.
+Betrachten wir einen Polynomialen Ring in mehreren Variablen über einem 
+Körper, so sind diese Definitionen noch leicht zu veranschaulichen. Wir kennen 
+einfache Beispiele aus der Algebraischen Geometrie in denen wir uns die 
+Variet\"at $V(I)$ eines Ideals $I$ vorstellen und dann die Komponente der 
+h\"ochsten Dimension auch die Dimension des Ideals verk\"orpert. Im Falle von 
+$k[x_1,\cdots,x_n]$ haben maximale Ketten von Primidealen, das heisst Ketten, 
+die nicht verfeinert werden k\"onnen, alle die L\"ange $n$. Also ist es 
+offensichtlich, dass $k[x_1,\cdots,x_n]$ die Dimension $n$ hat. Aber schon bei 
+Lokalisierungen dieses Rings ist das nicht mehr so. Ein algebraisch 
+abge\-schlos\-sen\-er K\"orper, der nur zwei Ideale, sich selbst und das Nullideal hat,
+ist somit offensichtlich von Dimension $0$. Ein Hauptidealbereich, also auch
+$\mathbb{Z}$ hat die Dimension $1$. $\mathbb{Z}[x]$ hat die 
+Dimension $2$. Es hat sogar jeder Noethersche Ring $R[x]$ die Dimension
+$k + 1$, wenn $k$ die Dimension von $R$ ist. Also folgt, dass 
+$\mathbb{Z}[x_1,\cdots,x_n]$ die Dimension $n+1$ hat. Dass man vorsichtig mit 
+diesen Dimensionbegriffen umgehen muss, zeigt folgendes Beispiel:\\
+
+\begin{Beispiel}
+Im Ring $(\mathbb{Z}/8\mathbb{Z})[x,y,z]$ betrachten wir die Kette\\
+$$\langle 2\rangle\subsetneq\langle 2,x\rangle\subsetneq\langle 2,x,y\rangle\subsetneq
+\langle 2,x,y,z\rangle$$
+Jedes dieser Ideale ist prim, und die Dimension von 
+$(\mathbb{Z}/8\mathbb{Z})[x,y,z]$ ist $3$. Da dieser Ring kein 
+Integrit\"atsbereich ist, ist das Nullideal hier kein Primideal.
+\end{Beispiel}
+
+\noindent
+In [Eis95] kann mehr zum Thema Dimension von Ringen und Idealen gelesen werden.\\
+Da wir es mit dem Polynomialen Ring \"uber den ganzen Zahlen zu tun haben, 
+m\"ussen wir auf der geometrischen Seite affine Schemata betrachten. Dort ist 
+die Anschauung schon abstrakter. Anstelle eines affinen Raums be\-trach\-tet man
+Spec$(A)=\{P\mid A\supset P \quad \text{Primideal}\}$ als umgebenden "Raum" von den
+Nullstellenmengen $V(I)=\{P \in \text{Spec}(A)\mid I\subset P\}$. W\"ahrend
+man im ersten Fall eine Topologie \"uber abgeschlossene Mengen $V(I)$, 
+$I\subset A$ Ideal, definiert hat (Zariski Topologie), macht man dies bei 
+Spec$(A)$ \"uber  die offenen Mengen 
+Spec$(A)\setminus V(f)$, $f\in A$, also diejenigen Primideale, die $f$ nicht 
+enthalten.\\ 
+Nun interessieren uns aber Primideale, die in besonderer Beziehung zu einem 
+bestimmten allgemeinen Ideal $I$ stehen:\\
+
+
+\begin{df}[GP07, Def. 4.1.1.]
+Sei $A$ ein Noetherscher Ring und $I\subseteq A$ ein Ideal.
+\begin{enumerate}
+\item[(1)] Die Menge der zu $I$ assoziierten Primideale wird definiert als\\
+$Ass(I) := \{P\subset A : P$ Primideal und $P = 
+(I:\langle b \rangle)\,\,\text{f\"ur ein}\,\, b \in A\}$\\
+Elemente von $Ass(\langle 0 \rangle)$ heissen auch assoziierte Primideale
+von $A$.
+\item[(2)] Seien $P,Q \in Ass(I)$ und $Q\subseteq P$, dann heisst $P$ ein
+eingebettetes Primideal von $I$.
+Dieser Begriff ist geometrisch motiviert.\\
+Wir definieren $Ass(I,P) := \{Q\mid Q \in Ass(I), Q\subset P\}$
+\item[(3)] $I$ heisst \textit{equidimensionales} oder \textit{rein dimensionales} 
+Ideal, falls alle zu $I$ assoziierten Primideale von gleicher Dimension sind.
+\end{enumerate}
+\end{df}
+  
+\noindent
+Zum Beispiel sind alle zu einem $0$-dimensionalen Ideal $I$ assoziierten Primideale 
+auch $0$-dimensional, da sie alle auch $I$ enthalten. Man kann sich das
+geometrisch so vorstellen, dass eine Menge von isolierten Punkten auch nur  
+Teilmengen von isolierten Punkten enthalten kann.\\
+Ein zu $I$ assoziiertes Primideal $P$ heisst minimal, wenn f\"ur jedes Primideal
+$Q\subset R$ mit $I \subset Q\subset P$ gilt, dass $Q = P$. Die Menge der 
+minimalen assoziierten Primideale von $I$ ist $minAss(I)$.\\
+Da wir diejenigen Prim\"arideale suchen, deren Radikale die zu dem Ideal assoziierten 
+Primideale sind, ist folgender Zusammenhang interessant:\\
+
+\begin{lem}[AL, Lemma 4.6.14.]
+Sei $I\subset A$ ein Ideal eines noetherschen Ringes $A$ und sei $I=\bigcap_{i=1}^r Q_i$
+eine Prim\"arzerlegung, so dass die $Q_i$ $P_i$-prim\"ar sind mit maximalen Idealen $P_i$.
+Dann sind f\"ur $j=1,\ldots,r$\\
+\[Q_j=\{f\in A\mid (I:\langle f\rangle) \not\subset P_j\}\]
+\end{lem}
+
+\begin{Beweis}
+Sei $j\in\{1,\ldots,r\}$. Wir bezeichnen $\{f\in A: (I:\langle f\rangle) \not\subset P_j\}$
+mit $Q_j^\prime $. F\"ur ein $f\in Q_j^\prime $ gibt es dann ein $g\in A$, so dass $g\not\in M_j$
+aber $fg\in I\subset Q_j$ ist. Da $Q_j$ prim\"ar ist, ist entweder $f$ oder
+eine Potenz von $g$ in $Q_j$. Da aber $g\not\in M_j=\sqrt{Q_j}$ folgt, dass $f\in Q_j$.\\
+F\"ur die umgekehrte Inklusion betrachten wir $f\in Q_j$. F\"ur jedes
+$i\in\{1,\ldots,r\}$, $i\not=j$ gibt es ein $s_i\in M_i-M_j$. Dann ist $s_i^{e_i}\in Q_i$.
+Nun sei $s$ das Produkt dieser $s_i^{e_i}, i\not=j$ und liegt im Produkt der 
+$Q_i, i\not=j$ aber nicht in $M_j$. Dann ist $fs$ im Produkt aller $Q_j$ und 
+somit auch in $I$ enthalten. Also ist $s\in I:\langle f\rangle$ und $s\not\in M_j$,
+so dass $f\in Q_j^\prime $ sein muss.
+\end{Beweis}
+
+\noindent
+In der Prim\"arzerlegung wollen wir unn\"otige Prim\"arideale ausschliessen, damit
+wir eine irredundante Zerlegung erhalten. Deswegen wollen wir keine eingebetteten
+Primideale miteinbeziehen.\\
+  
+\begin{prop}[GP07, Prop. 3.3.5.]
+Sei $R$ ein Noetherscher Ring und $I\subset R$ ein Ideal. Dann ist 
+$minAss(I) = \{P_1,\cdots,P_n\}$ endlich und \\
+\[\sqrt{I} = P_1\cap\cdots\cap P_n\]
+Im Speziellen ist $\sqrt{I}$ der Schnitt von allen Primidealen die $I$ enthalten.
+\end{prop}
+
+\noindent
+Den zweiten Punkt hatten wir schon in der Einf\"uhrung gezeigt. Auch in der 
+Konstruktion der Prim\"arzerlegung nach dem Finden der assoziierten Primideale
+in Theorem $20$ schliesst man \"uberfl\"ussige Primideale aus. Somit schliesst 
+sich hier der Kreis.\\[1cm]
+
+
+\subsection{Endlich erzeugte und freie Moduln}
+ 
+Wir ben\"otigen f\"ur die Konstruktion der assoziierten Primideale Informationen 
+\"uber Moduln und im Speziellen auch endlich erzeugte Moduln und freie Moduln 
+endlichen Ranges. Dazu wollen wir erstmal an folgende Definition errinnern:
+
+\begin{df}
+Sei $R$ ein Ring und $M$ ein endlich erzeugter $R$-Modul. $M$ heisst frei, falls
+$M$ isomorph ist zu $R^n$ f\"ur ein $n\in\mathbb{N}$. Genau dann gibt es eine
+$R$-Basis von $M$, d.h. ein $R$-linear unabh\"angiges Erzeugendensystem.
+\end{df}
+
+\noindent
+Zum Beispiel ist ein endlich erzeugtes Ideal in einem Ring $R$ ein freier 
+$R$-Modul oder $\mathbb{Z}_{p}[x]/f(x)$ f\"ur ein Polynom 
+$f(x)\in \mathbb{Z}_p[x]$.\\
+Schon im Beweis des ersten Theorems taucht der Begriff von L\"osungsmengen
+der Form $(h_{i1},\cdots,h_{ik})$ von Gleichungen $h_1 f_1+\cdots+h_k f_k = 0$ 
+einer Basis $(f_1,\cdots,f_q)$ eines Ideals auf. Dass wir es dann auch wieder 
+mit Untermoduln, den sogenannten $Syzygienmoduln$ zu tun haben wird in folgender 
+Definition erl\"autert. A. Seidenberg hat in den siebziger Jahren eine 
+Konstruktion von Syzygienmoduln von polynomialen Idealen mit Koeffizienten aus
+K\"orpern der Charakteristik $n \leq 0$ ver\"offentlicht.
+Mit Hilfe von Gr\"obner Basen hat man dann auch Syzygienkonstruktionen im
+arithmetischen Fall entwickelt. Syzygien werden in vielen weiteren algebraischen 
+Konstruktionen n\"utzlich eingesetzt.\\
+
+\begin{df}[GP07, Def. 2.5.1.]
+Eine Syzygie oder eine Relation zwi\-schen $k$ Elementen 
+$f_1,\cdots,f_k$ eines $R$-Moduls $M$ ist ein $k$-Tupel $(g_1,\cdots,g_k)\in R^k$,
+welches folgender Gleichung gen\"ugt\\
+\[\sum_{i=1}^k g_i f_i = 0\]
+Die Menge aller Syzygien zwischen $f_1,\cdots,f_k$ ist ein Untermodul von $R^k$.
+Dieser ist sogar der Kern des Ringhomomorphismus\\
+\[\varphi: F_1:=\bigoplus _{i=1}^k R\varepsilon _i\rightarrow M, \varepsilon _i \rightarrow f_i\]
+wobei $(\varepsilon_1,\cdots,\varepsilon _k)$ eine kanonische Basis von $R^k$ ist.\\
+$\varphi$ bildet surjektiv auf den $R$-Modul $I:= \langle f_1,\cdots,f_k \rangle _R$
+ab und\\
+$$syz(I):= syz(f_1,\cdots,f_k):= Ker (\varphi)$$
+wird der Modul der Syzygien von $I$ bez\"uglich der Erzeugenden $f_1,\cdots,f_k$
+genannt.
+\end{df}
+
+\noindent
+Der zweite Teil dieser Definition ist eigentlich eine Proposition. Es ist jedoch 
+leicht zu sehen, dass f\"ur die Menge aller dieser $k$-Tupel die Moduloperationen
+wie verlangt gelten und sie darunter auch abgeschlossen ist.\\
+Ist $R$ ein lokaler b.z.w. graduierter Ring und $\{f_1,\cdots,f_k\}$, 
+$\{g_1,\cdots,g_k\}$ minimale homogene Erzeugendensysteme von $I$, 
+so sind $syz(f_1,\cdots,f_k)$ und $syz(g_1,\cdots,g_k)$ zueinander isomorph. 
+Dann ist also $syz(I)$ wohldefiniert bis auf graduierte Isomorphismen. 
+Im Allgemeinen h\"angt $syz(I)$ von der Wahl der Basis des Ideals $I$ ab. 
+Es kann aber gezeigt werden, dass f\"ur 
+$I=\langle f_1,\cdots,f_k \rangle=\langle g_1,\cdots,g_s \rangle$ gilt:
+
+$$syz(f_1,\cdots,f_k )\oplus R^s \cong syz(g_1,\cdots,g_s)\oplus R^k$$
+
+\noindent
+Die Syzygienkonstruktion nach A. Seidenberg im Falle eines K\"orpers ist eine 
+Konstruktion, die haupts\"achlich Elemente der linearen Algebra beinhaltet. Sie 
+funktioniert zwar nicht im arithmetischen Fall, aber f\"ur endliche K\"orper mit 
+gen\"ugend großer Charakteristik $p$. Gen\"ugend groß heisst hierbei, dass wir 
+eine obere Grenze f\"ur den Grad der $g_j$, $j=1,\dots,s$ brauchen, damit wir 
+ausschliessen k\"onnen, dass die Grade der $g_j$ eventuell von $p$ geteilt 
+werden. Er ging dabei von $r$ Relationen der $f_{ij}$, $i=1,\dots,r$ aus und
+berechnete eine einfache rekursive Funktion $M(n,r,d)$ von $n,r$ und 
+$d \geq$ max deg$(f_i)$ :\\
+Wir betrachten die Matrix des Linearen Gleichungssystems der $r$ Gleichungen 
+mit den $g_j$ als Variablen und nehmen an, sie seien linear unabh\"angig. 
+Sei $\Delta$ die Determinante dieser Matrix, die dann ungleich $0$ sein muss.
+Wir stellen $\Delta g_1,\dots,\Delta g_r$ als Linearkombination der
+$g_{r+1},\dots,g_s$ dar und erhalten so L\"osungen
+\begin{quote}
+$(g_{11},\dots,g_{1r},\Delta,0,\dots,0) \dots
+(g_{s1},\dots,g_{sr},0,\dots,0,\Delta)$ \end{quote}
+Wir hatten eine homogene lineare Transformation durchgef\"uhrt, so dass wir 
+annehmen konnten, dass der Koeffizient der h\"ochsten Potenz von $x_n$ in 
+$\Delta$ ein Element aus dem K\"orper k ist. Nun beobachten wir, dass 
+$\text{deg}_{x_n}$ $(g_{ij})$ und deg $(\Delta)$ $\leq rd$ sein 
+m\"ussen. Die $g_j$ sind Polynome $\sum g_{ij} x_n^j$ vom Grad $rd-1$ in $x_n$ 
+mit Koeffizienten aus $k[x_1,\dots,x_{n-1}]$. Jede der $r$ Gleichungen erh\"oht
+$rd$ und wir erhalten insgesamt $r^2d$ Gleichungen.\\
+$M(n,r,d) = M(n-1,r^2d,d)+rd$ ist eine m\"ogliche rekursive Funktion für $M$.
+Da $M(o,r,d) = 0$ erlaubt ist, k\"onnen wir schreiben:\\
+\begin{quote}$M(n,r,d)=rd+(rd)^2+(rd)^4+\cdots+(rd)^{2^{n-1}}\leq n(rd)^{2^{n-1}}$
+\end{quote}
+Das ist das $N$, welches im Algorithmus SPLITTING(I) auftaucht. Die Quelle zu 
+dieser Berechnung ist [Sei10.74].\\
+In den Artikeln von A.Seidenberg taucht auch der Begriff eines 
+\textit{Moduls von endlicher Pr\"asentation} auf. Ein $R$-Modul $M$ heisst 
+von end\-li\-cher Pr\"a\-sen\-ta\-tion, wenn es einen Homomorphismus
+von einem freien $R$-Modul end\-li\-chen Ranges auf $M$ gibt, so dass 
+dessen Kern endlich erzeugt ist. Hier sollte "es gibt" in Hinblick auf die 
+konstruktivistische Intention heissen, dass $M$ durch eine endliche Menge von 
+Erzeugenden und durch eine endliche Anzahl von Relationen zwischen den Erzeugenden 
+gegeben ist. Mit anderen Worten ist dann der Syzygienmodul endlich erzeugt.\\
+
+\begin{lem}[Sei74, Lemma 2]
+Ist ein Modul $M$ von endlicher Pr\"a\-sen\-ta\-tion, so hat jede Abbildung eines 
+freien $R$-Moduls endlichen Ranges auf $M$ einen endlich erzeugten Kern.\\
+\end{lem}
+
+Tats\"achlich ist auch f\"ur einen Modul ein Erzeugendensystem so gut wie das 
+andere. Mit anderen Worten kann man mit den gegebenen Relationen des einen 
+Erzeugendensystems die Relationen jedes anderen Erzeugendensystems konstruieren.
+In [Ri74] und in [Sei74] sind viele weitere algorithmische Aspekte von Noetherschen 
+Ringen beschrieben. Die meisten dieser Algorithmen wurden schon in verschiedene
+Computeralgebrasysteme implementiert.\\
+
+
+\newpage
+\section{Abbildungen als "\"Ubersetzungen"}
+Wir wollen noch die Begriffe von Erweiterungen und Kontraktionen 
+von Idealen erl\"autern. Diese Definitionen sind f\"ur Moduln analog. Wir werden
+sie hier aber nur f\"ur Ideale formulieren.
+
+
+\subsection{Homomorphismen zwischen Polynomringen}
+
+Sie sind unentbehrlich für Zerlegungen von Idealen und Moduln \"uber Ringen. Mit 
+ihrer Hilfe k\"onnen wir Informationen, welche schon in der Zerlegung von 
+Idealen in $k[x_1,\dots,x_n]$ f\"ur einen K\"orper $k$ und Unterr\"aumen 
+von Vektorr\"aumen erarbeitet wurden auf unseren Fall \"ubertragen.\\
+Wir betrachten also einen Homomorphismus $f: A \rightarrow B$ zwischen zwei 
+Ringen $A$ und $B$.
+
+\begin{df}[AM69]
+\begin{enumerate} 
+\item [(1)] Die Erweiterung oder Verl\"angerung $I^{e}$ eines Ideals 
+$I\subset A$ ist das Ideal $B\langle f(I) \rangle$ in $B$.
+\item [(2)] Die Kontraktion $J^{c}$ eines Ideals $J\subset B$ ist das Ideal 
+$f^{-1}(J)$ in $A$.
+\end{enumerate}
+\end{df}
+
+\noindent
+Die Kontraktion eines Primideals $P \subset B$ ist immer auch ein Primideal 
+in $A$, eine Verl\"angerung eines Primideals $P\subset A$ ist jedoch nicht 
+unbedingt ein Primideal in $B$. Diese Tatsache legt schon fest, dass wir 
+bei Abbildungen immer $A=\mathbb{Z}[x_1,\dots,x_n]$ setzen.
+Wir betrachten ein klassisches Beispiel aus der Zahlentheorie:\\
+
+\begin{Beispiel}
+Sei $f: \mathbb{Z}\rightarrow \mathbb{Z}[i],\,\,i=\sqrt{-1}$, ein Homomorphismus
+von zwei Hauptidealringen:
+\begin{enumerate} 
+\item [(1)] Die Erweiterung des Primideals $\langle 2 \rangle$ ist dann
+$\langle 2 \rangle^{e} = \mathbb{Z}[i]\langle 2 \rangle = \langle 2i \rangle =
+\langle (1+i)^2 \rangle$, also das Quadrat eines Primideals.
+\item [(1)] Ist eine Primzahl $p\equiv 1$ mod $4$, so ist $\langle p \rangle^{e}$
+das Produkt zweier unterschiedlicher Ideale. Zum Beispiel ist 
+$\langle 5 \rangle^{e}=\langle(2+i)(2-i)\rangle$.
+\end{enumerate}
+\end{Beispiel}
+
+\noindent
+Folgende Eigenschaften von Kontraktionen und Erweiterungen sind f\"ur uns 
+interessant:\\
+
+\begin{prop}[AM69, Prop. 1.17.] Sei $f: A \rightarrow B$ ein Homomorphismus
+von Ringen und $I\subset A$, $J\subset B$ zwei Ideale. Dann gilt:
+\begin{enumerate}
+\item[(1)] $I\subset I^{ec}$, $J^{ce}\subset J$
+\item[(2)] $J^{c}=J^{cec}$, $I^{e}=I^{ece}$
+\item[(3)] Setzen wir $C=\{J^{c}\mid J \in B\}\subset A$ und 
+$E=\{I^{e}\mid I \in A\}\subset B$ so gilt:\\
+$C=\{I\mid I^{ec}= I \}$ und $E=\{J\mid J^{ce}=J\}$.\\
+$I\mapsto I^{ec}$ definiert eine bijektive Abbildung von $C$ nach $E$, 
+deren Inverse durch $J\mapsto J1{c}$ gegeben ist.
+\end{enumerate}
+\end{prop}
+
+\noindent
+Damit haben wir einige grundlegende Hilfsmittel, die wir in unserem Algorithmus
+direkt oder indirekt angewandt haben erk\"art. Es w\"urde aber wie bei allen 
+Dingen, die auf vielen anderen bereits erarbeiteten Prozessen aufbauen den Rahmen 
+sprengen, diese Prozesse bis in die Wurzeln zu erl\"autern.\\
+
+\newpage
+
+
+\begin{thebibliography}{Sei10.74}
+
+\bibitem[AL94]{loust}{\Large W}ILLIAM {\Large W}. {\Large A}DAMS und
+{\Large P}HILIPPE {\Large L}OUSTAUNAU: \textit{An
+Introduction to Gr\"obner bases}. Graduate Studies in Mathematics. 
+3. Providence, RI: American Mathematical Society (AMS), 1994.
+
+
+\bibitem[AM69]{atiyah}{\Large M}ICHAEL {\Large F}. {\Large A}TIYAH und
+{\Large I.G. M}ACDONALD: \textit{Introduction to commutaive algebra}.
+Addison-Wesley Publishing Company, 1969.
+
+\bibitem[Eis95]{eisen}{{\Large D}AVID {\Large E}ISENBUD: \textit{Commutative
+algebra with a view toward algebraic geometry}. Graduate Texts in Mathematics.
+150. Berlin, Springer-Verlag, 1995.}
+
+\bibitem[GP07]{pfister}{{\Large G}ERT-{\Large M}ARTIN {\Large G}REUEL und
+{\Large G}ERHARD {\Large P}FISTER: \textit{A Singular introduction to commutative
+algebra, 2nd extended edition}. Berlin, Springer-Verlag, 2007.}
+
+\bibitem[Ri74]{richman}{{\Large F}RED {\Large R}ICHMAN:
+\textit{Constructive Aspects of Noetherian Rings}. RI: American Mathematical 
+Society (AMS), Proceedings of the AMS, Vol. 44, No. 2, pages 436-441, 
+June 1974.}
+ 
+\bibitem[Sei78]{seiden1}{{\Large A}BRAHAM {\Large S}EIDENBERG: \textit{Constructions
+in a polynomial ring over the ring of integers}. American Journal of Mathematics,
+1978 (received 1974), 100(4): pages 685-703.}
+
+\bibitem[Sei74]{seiden2}{{\Large A}BRAHAM {\Large S}EIDENBERG: \textit{What is
+Noetherian?}. Seminario Matematico e Fisico, Italy, May 1974.}
+
+\bibitem[Sei10.74]{seiden3} {{\Large A}BRAHAM {\Large S}EIDENBERG:
+\textit{Constructions in algebra}. RI: American Mathematical Society (AMS), 
+Transactions of the AMS, Vol. 197, pages 273-313, October 1974.}
+
+\bibitem[Vas04]{vasco}{\Large W}OLMER {\Large V}ASCONCELOS:\textit{Computational
+Methods in Commutative Algebra and Algebraic Geometry, 3rd Edition}. Berlin, 
+Springer-Verlag, 2004.
+
+\end{thebibliography}
+ 
+
+
+
+
+\end{document}
